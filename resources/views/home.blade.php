@@ -58,7 +58,7 @@
 
                 <!-- Featured Image -->
                 <div class="mb-6">
-                    <img src="/api/placeholder/800/400" alt="Featured Image" class="w-full h-auto rounded-lg">
+                    <img src="https://prd.place/300/200" alt="Featured Image" class="w-full h-auto rounded-lg">
                 </div>
 
                 <!-- Post Content -->

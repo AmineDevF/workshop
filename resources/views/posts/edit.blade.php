@@ -1,4 +1,4 @@
-<x-app-laout-web name="create-post">
+<x-app-laout-web name="edit-post">
   
     <main class="max-w-4xl mx-auto mt-8 px-4">
         <!-- Breadcrumb -->
@@ -7,21 +7,21 @@
             <span class="mx-2">/</span>
             <a href="#" class="hover:text-blue-500">Dashboard</a>
             <span class="mx-2">/</span>
-            <span class="text-gray-800">Create New Post</span>
+            <span class="text-gray-800">Edit Post</span>
         </div>
 
         <!-- Create Post Form -->
         <div class="bg-white rounded-lg shadow-md p-6">
             <h1 class="text-2xl font-bold mb-6">Create New Post</h1>
             
-            <form action="{{ route('posts.store')}}" method="POST"  enctype="multipart/form-data">
+            <form action="{{ route('posts.update',$post)}}" method="POST" enctype="multipart/form-data">
                 <!-- CSRF Token -->
-                @method('POST')
+                @method('PUT')
                 @csrf              
                 <!-- Title Input -->
                 <div class="mb-6">
                     <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Post Title</label>
-                    <input value="{{old('title')}}" type="text" id="title" name="title" 
+                    <input value="{{$post->title}}" type="text" id="title" name="title" 
                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                            placeholder="Enter post title" >
                            @error('title')
@@ -36,9 +36,9 @@
                     <div class="relative">
                         <select id="category_id" name="category_id" 
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-                            <option value="" disabled selected>Select a category</option>
+                            <option value="{{$post->category->id}}" selected> {{$post->category->name}} </option>
                             @foreach ($categories as $category)
-                            <option value="{{ $category->id }}"  selected>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" >{{ $category->name }}</option>
                                 
                             @endforeach 
                             
@@ -75,7 +75,7 @@
                                 <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                 <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 2MB)</p>
                             </div>
-                            <input id="image-upload" name="image" type="file" class="hidden" accept="image/*" />
+                            <input id="image-upload" name="image" type="file"  class="hidden" accept="image/*" />
                         </label>
                     </div>
                     @error('image')
@@ -83,7 +83,7 @@
                        @enderror
                     <div id="image-preview" class="mt-4 hidden">
                         <div class="relative w-full h-48 overflow-hidden rounded-lg">
-                            <img id="preview-image" src="#" alt="Preview" class="w-full h-full object-cover">
+                            <img id="preview-image" src="{{$post->image}}" alt="Preview" class="w-full h-full object-cover">
                             <button type="button" id="remove-image" class="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -123,9 +123,9 @@
                                 </svg>
                             </button>
                         </div>
-                        <textarea id="description" name="description" rows="12"
+                        <textarea id="description" name="description" rows="12" 
                                   class="w-full px-3 py-2 border-none focus:outline-none focus:ring-0"
-                                  placeholder="Write your post content here..."></textarea>
+                                  placeholder="Write your post content here...">{{$post->description}}</textarea>
                                   @error('description')
                                   <div><p class="mt-1 text-sm text-gray-500 text-red-700">{{ $message }}</p></div>
                               @enderror

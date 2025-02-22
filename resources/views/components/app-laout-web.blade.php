@@ -17,8 +17,12 @@
                     <a href="#" class="text-xl font-bold text-gray-800">BlogApp</a>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="text-gray-600 hover:text-gray-800">Home</a>
-                    <a href="#" class="text-gray-600 hover:text-gray-800">Categories</a>
+                  @auth
+                  <a href="#" class="text-gray-600 hover:text-gray-800">My Posts</a>
+                  <a href="#" class="text-gray-600 hover:text-gray-800">New Categories</a>
+                  <a href="{{route('posts.create')}}" class="text-gray-600 hover:text-gray-800">New Post</a>
+                  @endauth
+                   
                     @if (Route::has('login'))
                     <div class="">
                         @auth

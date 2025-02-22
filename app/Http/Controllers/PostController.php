@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -17,9 +18,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('category','user','comments')->get();
+        
+        $posts = Post::with('category','user','comments')->paginate(2);
   
-        // dump(Post::with('category','user','comments')->get());
+       //  dump(Post::with('category','user','comments')->get());
         // dump(Comment::with('post','user')->get());
         // dump(User::with('role','posts','comments')->get());
         return view('posts/index',["posts"=> $posts]);
@@ -39,22 +41,26 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+       
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'category_id' => ['required'],
             'description' => ['required'],
+            'image' => ['required']
         ]);
 
-        // dd($request);
+        $imagepath = $request->file('image') ? $request->file('image')->store('posts', 'public') : null;
+        // dd($imagepath);
         Post::create([
             'user_id'=>auth()->id(),
             'title' => $request->title,
             'category_id' => $request->category_id,
             'description' => $request->description,
-            'slug'=>'test',
+            'slug'=>Str::slug($request->title),
+            'image' => $imagepath,
         ]);
 
-        return redirect()->back();
+        return redirect()->route('posts.index');
 
     }
 
@@ -71,16 +77,35 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+    $categories = Category::all();
+   return view('posts.edit',["post" => $post,"categories"=>$categories]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
-        //
-    }
+             $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'category_id' => ['required'],
+            'description' => ['required']     
+        ]);
+   $ImagePath= $request->file('image') ? $request->file('image')->store('posts', 'public') : $post->image; 
+   
+    $post->update([
+    'user_id'=>auth()->id(),
+    'title' => $request->title,
+    'category_id' => $request->category_id,
+    'description' => $request->description,
+    'slug'=>Str::slug($request->title),
+    'image' => $ImagePath,
+]);
+
+return redirect()->route('posts.index');
+
+   }
+   
 
     /**
      * Remove the specified resource from storage.

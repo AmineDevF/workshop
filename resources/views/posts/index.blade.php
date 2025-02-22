@@ -9,23 +9,27 @@
             <span class="mx-2">/</span>
             <span class="text-gray-800">Getting Started with Web Development</span>
         </div>
-
+@foreach ($posts as $post)
         <!-- Post Content -->
         <article class="bg-white rounded-lg shadow-md">
             <!-- Post Header -->
+            
             <div class="p-6">
-                <h1 class="text-3xl font-bold mb-4">Getting Started with Web Development</h1>
+                
+                   
+                
+                <h1 class="text-3xl font-bold mb-4"> {{$post->title}}</h1>
                 
                 <!-- Post Metadata -->
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center">
                         <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
                         <div class="ml-4">
-                            <h3 class="font-semibold">John Doe</h3>
+                            <h3 class="font-semibold">{{$post->user->name}}</h3>
                             <div class="text-gray-500 text-sm">
-                                <span>Published on March 15, 2024</span>
+                                <span>Published on  {{$post->created_at->toFormattedDateString()}}</span>
                                 <span class="mx-2">•</span>
-                                <span>5 min read</span>
+                                <span>{{$post->created_at->diffForHumans()}} read</span>
                             </div>
                         </div>
                     </div>
@@ -48,7 +52,7 @@
 
                 <!-- Categories and Tags -->
                 <div class="flex items-center space-x-4 mb-6">
-                    <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">Technology</span>
+                    <span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">{{$post->category->name}}</span>
                     <div class="flex items-center space-x-2">
                         <span class="text-sm text-gray-500">#webdev</span>
                         <span class="text-sm text-gray-500">#coding</span>
@@ -63,17 +67,8 @@
 
                 <!-- Post Content -->
                 <div class="prose max-w-none">
-                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p class="mb-4">{{$post->description}}</p>
                     
-                    <h2 class="text-2xl font-bold mt-6 mb-4">Getting Started</h2>
-                    <p class="mb-4">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    
-                    <h2 class="text-2xl font-bold mt-6 mb-4">Key Concepts</h2>
-                    <ul class="list-disc pl-6 mb-4">
-                        <li class="mb-2">HTML - Structure of web pages</li>
-                        <li class="mb-2">CSS - Styling and layout</li>
-                        <li class="mb-2">JavaScript - Interactivity and behavior</li>
-                    </ul>
                 </div>
 
                 <!-- Engagement Metrics -->
@@ -88,7 +83,7 @@
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
                         </svg>
-                        <span>12 Comments</span>
+                        <span>{{$post->comments->count()}} Comments</span>
                     </button>
                     <button class="text-gray-500 hover:text-blue-500 flex items-center">
                         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,12 +91,13 @@
                         </svg>
                         <span>Share</span>
                     </button>
+                   
                 </div>
             </div>
-
+           
             <!-- Comments Section -->
             <div class="border-t border-gray-200 p-6">
-                <h3 class="text-xl font-bold mb-6">Comments (12)</h3>
+                <h3 class="text-xl font-bold mb-6">Comments ({{$post->comments->count()}})</h3>
                 <div class="space-y-6">
                     <!-- Comment Input -->
                     <div class="flex items-start space-x-4">
@@ -116,6 +112,9 @@
                     <!-- Existing Comments -->
                     <div class="space-y-6">
                         <!-- Comment 1 -->
+                        @foreach ($post->comments as $comment)
+                            
+                        
                         <div class="flex items-start space-x-4">
                             <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
                             <div class="flex-1">
@@ -124,7 +123,7 @@
                                         <h4 class="font-semibold">Jane Smith</h4>
                                         <span class="text-gray-500 text-sm">2 hours ago</span>
                                     </div>
-                                    <p class="text-gray-800">Great article! This really helped me understand the basics of web development. Looking forward to more content like this.</p>
+                                    <p class="text-gray-800">{{$comment->content}}</p>
                                     <div class="mt-3 flex items-center space-x-4">
                                         <button class="text-gray-500 hover:text-blue-500 text-sm">Reply</button>
                                         <button class="text-gray-500 hover:text-blue-500 text-sm">Like</button>
@@ -132,29 +131,14 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Comment 2 -->
-                        <div class="flex items-start space-x-4">
-                            <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                            <div class="flex-1">
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <div class="flex items-center justify-between mb-2">
-                                        <h4 class="font-semibold">Mike Johnson</h4>
-                                        <span class="text-gray-500 text-sm">5 hours ago</span>
-                                    </div>
-                                    <p class="text-gray-800">Could you elaborate more on the CSS part? I'm still struggling with flexbox and grid layouts.</p>
-                                    <div class="mt-3 flex items-center space-x-4">
-                                        <button class="text-gray-500 hover:text-blue-500 text-sm">Reply</button>
-                                        <button class="text-gray-500 hover:text-blue-500 text-sm">Like</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                       
+                      
                     </div>
                 </div>
             </div>
         </article>
 
- 
+        @endforeach
     </main>
 </x-app-laout-web>

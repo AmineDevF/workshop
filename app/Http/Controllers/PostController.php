@@ -19,7 +19,7 @@ class PostController extends Controller
     public function index()
     {
         
-        $posts = Post::with('category','user','comments')->paginate(2);
+        $posts = Post::with('category','user','comments')->latest()->paginate(2);
   
        //  dump(Post::with('category','user','comments')->get());
         // dump(Comment::with('post','user')->get());
@@ -112,6 +112,7 @@ return redirect()->route('posts.index');
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->back();
     }
 }

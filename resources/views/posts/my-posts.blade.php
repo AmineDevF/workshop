@@ -44,7 +44,7 @@
                         </a>
                         @endif
 
-                        @if (auth()->check() && auth()->user()->role->name == "admin" || auth()->check() && auth()->user()->role->name == "author")
+                        @if (auth()->check() && auth()->user()->role->name == "admin" || auth()->user()->role->name == "author")
                       <form action="{{route('posts.destroy',$post)}}" method="post">
                         @method('DELETE')
                         @csrf
@@ -108,41 +108,7 @@
             <!-- Comments Section -->
             <div class="border-t border-gray-200 p-6">
                 <h3 class="text-xl font-bold mb-6">Comments ({{$post->comments->count()}})</h3>
-                <div class="space-y-6">
-                    <!-- Comment Input -->
-                    <form action="{{route('comment.post',$post)}}" method="post">
-                    <div class="flex items-start space-x-4">
-                        
-                            @method('POST')
-                            @csrf
 
-                        <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-                        <div class="flex-1">
-                          
-                                     @auth
-                                    
-                                      <textarea  name="content" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
-                                      placeholder="Add to the discussion...">{{old('content')}}</textarea>
-                                      @error('content')
-                                      <div><p class="mt-1 text-sm  text-red-700">{{ $message }}</p></div>
-                                  @enderror
-                                           <button class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Comment</button>
-                                      @else
-                                      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-                                        <div class="flex">
-                                            <div class="ml-3">
-                                                <p class="text-sm text-yellow-700">
-                                                    <a href="{{ route('login') }}" class="font-medium underline">Log in</a> to post a comment.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                     @endauth
-                           
-                        </div>
-                    
-                    </div>
-                </form>
                     <!-- Existing Comments -->
                     <div class="space-y-6">
                         <!-- Comment 1 -->

@@ -1,4 +1,4 @@
-<x-app-laout-web name="edit-post">
+<x-app-laout-web url="{{route('posts.index')}}"  name="edit-post">
   
     <main class="max-w-4xl mx-auto mt-8 px-4">
         <!-- Breadcrumb -->

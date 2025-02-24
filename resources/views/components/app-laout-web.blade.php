@@ -1,4 +1,4 @@
-@props(['name'])
+@props(['name','url'])
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,11 +14,11 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <a href="#" class="text-xl font-bold text-gray-800">BlogApp</a>
+                    <a href="{{$url}}" class="text-xl font-bold text-gray-800">BlogApp</a>
                 </div>
                 <div class="flex items-center space-x-4">
                   @auth
-                  <a href="#" class="text-gray-600 hover:text-gray-800">My Posts</a>
+                  <a href="{{route('my-posts.post')}}" class="text-gray-600 hover:text-gray-800">My Posts</a>
                   <a href="#" class="text-gray-600 hover:text-gray-800">New Categories</a>
                   <a href="{{route('posts.create')}}" class="text-gray-600 hover:text-gray-800">New Post</a>
                   @endauth

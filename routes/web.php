@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/home', function () {
-    return view('home');
+    return view('test');
 });
+
+Route::resource('/posts',PostController::class)->only(['index']);
 Route::middleware(['auth'])->group(function () {
-Route::resource('/posts',PostController::class);
+Route::resource('/posts',PostController::class)->except(['index']);
+Route::post('/comments/{post}', [CommentController::class , 'post'])->name('comment.post');
+Route::get('/my-posts', [PostController::class , 'myPosts'])->name('my-posts.post');
 });
 
 
